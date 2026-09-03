@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+  <title>Login — Help Desk</title>
+</head>
+<body>
+  <header>
+    <div class="brand">🎧 Help Desk</div>
+  </header>
+
+  <main class="card" style="max-width:420px; margin:60px auto;">
+    <h2>Login</h2>
+    <p class="muted" style="margin-bottom:18px;">Welcome back. Enter your credentials to continue.</p>
+    <label class="field-label">Username</label>
+    <input id="login-username" type="text" placeholder="your_username" autocomplete="username" />
+    <label class="field-label">Password</label>
+    <input id="login-password" type="password" placeholder="••••••••" autocomplete="current-password" />
+    <button id="login-btn" class="btn-full">Login</button>
+    <p id="login-msg" class="msg"></p>
+    <p class="muted" style="margin-top:14px; text-align:center;">
+      Don't have an account? <a href="register.html">Register</a>
+    </p>
+  </main>
+
+  <script src="app.js"></script>
+</body>
+</html>

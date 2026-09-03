@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+  <title>Register — Help Desk</title>
+</head>
+<body>
+  <header>
+    <div class="brand">🎧 Help Desk</div>
+  </header>
+
+  <main class="card" style="max-width:420px; margin:60px auto;">
+    <h2>Create account</h2>
+    <p class="muted" style="margin-bottom:18px;">Fill in the details below to get started.</p>
+    <label class="field-label">Username</label>
+    <input id="reg-username" type="text" placeholder="your_username" autocomplete="username" />
+    <label class="field-label">Email</label>
+    <input id="reg-email" type="email" placeholder="you@example.com" autocomplete="email" />
+    <label class="field-label">Password</label>
+    <input id="reg-password" type="password" placeholder="••••••••" autocomplete="new-password" />
+    <label class="field-label">Role</label>
+    <select id="reg-role">
+      <option value="CUSTOMER">Customer</option>
+      <option value="AGENT">Agent</option>
+    </select>
+    <button id="reg-btn" class="btn-full">Create account</button>
+    <p id="reg-msg" class="msg"></p>
+    <p class="muted" style="margin-top:14px; text-align:center;">
+      Already have an account? <a href="login.html">Login</a>
+    </p>
+  </main>
+
+  <script src="app.js"></script>
+</body>
+</html>
