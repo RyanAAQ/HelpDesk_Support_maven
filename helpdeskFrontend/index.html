@@ -3,12 +3,17 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<<<<<<< HEAD
   <meta name="description" content="Help Desk support portal for managing customer issues.">
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+=======
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+>>>>>>> f4ce8b4e73d6a19e14a22a11fbe9be3f777111de
   <link rel="stylesheet" href="style.css">
   <title>Help Desk</title>
 </head>
 <body>
+<<<<<<< HEAD
   <header class="site-header">
     <div class="header-inner">
       <a href="index.html" class="brand" aria-label="Help Desk home">
@@ -140,6 +145,27 @@
       const u = localStorage.getItem('helpdesk_user');
       if (u) window.location.href = 'dashboard.html';
     } catch (_) {}
+=======
+  <header>
+    <div class="brand">🎧 Help Desk</div>
+  </header>
+
+  <main class="card" style="max-width:460px; margin:60px auto; text-align:center;">
+    <h1 style="margin-bottom:8px;">Welcome</h1>
+    <p class="muted" style="margin-bottom:28px;">Raise tickets, track issues, get help.</p>
+    <div style="display:flex; gap:10px; justify-content:center;">
+      <a class="btn-link" href="login.html">Login</a>
+      <a class="btn" href="register.html">Register</a>
+    </div>
+  </main>
+
+  <script>
+    // Redirect to dashboard if already logged in
+    try {
+      const u = localStorage.getItem('helpdesk_user');
+      if (u) window.location.href = 'dashboard.html';
+    } catch(_) {}
+>>>>>>> f4ce8b4e73d6a19e14a22a11fbe9be3f777111de
   </script>
 </body>
 </html>

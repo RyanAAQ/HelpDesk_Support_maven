@@ -4,7 +4,10 @@ import lombok.AllArgsConstructor;
 import ng.helpdesk.data.models.Role;
 import ng.helpdesk.data.models.Ticket;
 import ng.helpdesk.data.models.User;
+<<<<<<< HEAD
 import ng.helpdesk.data.repositories.CommentRepository;
+=======
+>>>>>>> f4ce8b4e73d6a19e14a22a11fbe9be3f777111de
 import ng.helpdesk.data.repositories.TicketRepository;
 import ng.helpdesk.data.repositories.UserRepository;
 import ng.helpdesk.dtos.requests.AssignAgentRequest;
@@ -27,7 +30,10 @@ public class TicketService {
 
     private TicketRepository ticketRepository;
     private UserRepository userRepository;
+<<<<<<< HEAD
     private CommentRepository commentRepository;
+=======
+>>>>>>> f4ce8b4e73d6a19e14a22a11fbe9be3f777111de
 
     public TicketResponse createTicket(CreateTicketRequest request) {
         Optional<User> customer = userRepository.findById(request.getCustomerId());
@@ -84,6 +90,7 @@ public class TicketService {
             throw new TicketNotFoundException("Ticket not found");
         }
 
+<<<<<<< HEAD
         // Verify the caller is an AGENT or ADMIN
         Optional<User> caller = userRepository.findById(request.getCallerId());
         if (caller.isEmpty()) {
@@ -93,6 +100,8 @@ public class TicketService {
             throw new IllegalArgumentException("Only agents or admins can assign agents to tickets");
         }
 
+=======
+>>>>>>> f4ce8b4e73d6a19e14a22a11fbe9be3f777111de
         Optional<User> agent = userRepository.findById(request.getAgentId());
         if (agent.isEmpty()) {
             throw new UserNotFoundException("Agent not found");
@@ -114,6 +123,7 @@ public class TicketService {
             throw new TicketNotFoundException("Ticket not found");
         }
 
+<<<<<<< HEAD
         // Verify the caller is an AGENT or ADMIN
         Optional<User> caller = userRepository.findById(request.getCallerId());
         if (caller.isEmpty()) {
@@ -123,6 +133,8 @@ public class TicketService {
             throw new IllegalArgumentException("Only agents or admins can update ticket status");
         }
 
+=======
+>>>>>>> f4ce8b4e73d6a19e14a22a11fbe9be3f777111de
         Ticket ticket = found.get();
         ticket.setStatus(request.getStatus());
         ticketRepository.save(ticket);
@@ -130,11 +142,16 @@ public class TicketService {
         return Mapper.mapToTicket(ticket);
     }
 
+<<<<<<< HEAD
     public void deleteTicket(String id, String callerId) {
+=======
+    public void deleteTicket(String id) {
+>>>>>>> f4ce8b4e73d6a19e14a22a11fbe9be3f777111de
         Optional<Ticket> found = ticketRepository.findById(id);
         if (found.isEmpty()) {
             throw new TicketNotFoundException("Ticket not found");
         }
+<<<<<<< HEAD
 
         // Only ADMIN can delete tickets
         Optional<User> caller = userRepository.findById(callerId);
@@ -147,6 +164,8 @@ public class TicketService {
 
         // Delete all comments belonging to this ticket to avoid orphaned records
         commentRepository.deleteByTicketId(id);
+=======
+>>>>>>> f4ce8b4e73d6a19e14a22a11fbe9be3f777111de
         ticketRepository.deleteById(id);
     }
 }

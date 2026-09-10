@@ -57,7 +57,11 @@ public class TicketController {
         return ResponseEntity.ok(ticketService.getTicketsByCustomer(customerId));
     }
 
+<<<<<<< HEAD
    @PutMapping("/{id}/assign")
+=======
+    @PutMapping("/{id}/assign")
+>>>>>>> f4ce8b4e73d6a19e14a22a11fbe9be3f777111de
     public ResponseEntity<?> assignAgent(@PathVariable String id, @RequestBody AssignAgentRequest request) {
         try {
             TicketResponse response = ticketService.assignAgent(id, request);
@@ -65,7 +69,11 @@ public class TicketController {
         } catch (TicketNotFoundException | UserNotFoundException e) {
             return ResponseEntity.status(404).body(e.getMessage());
         } catch (IllegalArgumentException e) {
+<<<<<<< HEAD
             return ResponseEntity.status(403).body(e.getMessage());
+=======
+            return ResponseEntity.badRequest().body(e.getMessage());
+>>>>>>> f4ce8b4e73d6a19e14a22a11fbe9be3f777111de
         }
     }
 
@@ -74,14 +82,20 @@ public class TicketController {
         try {
             TicketResponse response = ticketService.updateStatus(id, request);
             return ResponseEntity.ok(response);
+<<<<<<< HEAD
         } catch (TicketNotFoundException | UserNotFoundException e) {
             return ResponseEntity.status(404).body(e.getMessage());
         } catch (IllegalArgumentException e) {
             return ResponseEntity.status(403).body(e.getMessage());
+=======
+        } catch (TicketNotFoundException e) {
+            return ResponseEntity.status(404).body(e.getMessage());
+>>>>>>> f4ce8b4e73d6a19e14a22a11fbe9be3f777111de
         }
     }
 
     @DeleteMapping("/{id}")
+<<<<<<< HEAD
     public ResponseEntity<?> deleteTicket(@PathVariable String id, @RequestParam String callerId) {
         try {
             ticketService.deleteTicket(id, callerId);
@@ -90,6 +104,14 @@ public class TicketController {
             return ResponseEntity.status(404).body(e.getMessage());
         } catch (IllegalArgumentException e) {
             return ResponseEntity.status(403).body(e.getMessage());
+=======
+    public ResponseEntity<?> deleteTicket(@PathVariable String id) {
+        try {
+            ticketService.deleteTicket(id);
+            return ResponseEntity.noContent().build();
+        } catch (TicketNotFoundException e) {
+            return ResponseEntity.status(404).body(e.getMessage());
+>>>>>>> f4ce8b4e73d6a19e14a22a11fbe9be3f777111de
         }
     }
 }

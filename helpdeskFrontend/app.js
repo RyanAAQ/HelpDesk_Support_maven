@@ -1,5 +1,10 @@
 const API = 'http://localhost:8080/api';
 
+<<<<<<< HEAD
+=======
+// ── session ────────────────────────────────────────────────────────────────
+
+>>>>>>> f4ce8b4e73d6a19e14a22a11fbe9be3f777111de
 let currentUser = null;
 
 function saveUser(u) {
@@ -25,6 +30,11 @@ function requireAuth() {
   return true;
 }
 
+<<<<<<< HEAD
+=======
+// ── http helpers ───────────────────────────────────────────────────────────
+
+>>>>>>> f4ce8b4e73d6a19e14a22a11fbe9be3f777111de
 async function http(method, path, body) {
   const opts = {
     method,
@@ -78,20 +88,32 @@ function fmtDate(dt) {
   return new Date(dt).toLocaleString(undefined, { dateStyle: 'medium', timeStyle: 'short' });
 }
 
+<<<<<<< HEAD
 // ── register page (customer) ───────────────────────────────────────────────
 // Role is always CUSTOMER on register.html — no dropdown needed.
+=======
+// ── register page ──────────────────────────────────────────────────────────
+>>>>>>> f4ce8b4e73d6a19e14a22a11fbe9be3f777111de
 
 async function register() {
   const username = document.getElementById('reg-username')?.value.trim();
   const email    = document.getElementById('reg-email')?.value.trim();
   const password = document.getElementById('reg-password')?.value;
+<<<<<<< HEAD
+=======
+  const role     = document.getElementById('reg-role')?.value || 'CUSTOMER';
+>>>>>>> f4ce8b4e73d6a19e14a22a11fbe9be3f777111de
 
   if (!username || !email || !password) {
     setMsg('reg-msg', 'Please fill in all fields.'); return;
   }
 
   try {
+<<<<<<< HEAD
     await post('/users/register', { username, email, password, role: 'CUSTOMER' });
+=======
+    await post('/users/register', { username, email, password, role });
+>>>>>>> f4ce8b4e73d6a19e14a22a11fbe9be3f777111de
     setMsg('reg-msg', '✓ Account created! Redirecting to login…', true);
     setTimeout(() => window.location.href = 'login.html', 1200);
   } catch (e) {
@@ -99,6 +121,7 @@ async function register() {
   }
 }
 
+<<<<<<< HEAD
 // ── register page (agent) ──────────────────────────────────────────────────
 // Role is always AGENT on register-agent.html — not exposed to the user.
 
@@ -120,6 +143,8 @@ async function registerAgent() {
   }
 }
 
+=======
+>>>>>>> f4ce8b4e73d6a19e14a22a11fbe9be3f777111de
 // ── login page ─────────────────────────────────────────────────────────────
 
 async function login() {
@@ -132,6 +157,11 @@ async function login() {
 
   try {
     const user = await post('/users/login', { username, password });
+<<<<<<< HEAD
+=======
+    // UserResponse has no 'username' field — store the 'name' field as username
+    user.username = user.name;
+>>>>>>> f4ce8b4e73d6a19e14a22a11fbe9be3f777111de
     saveUser(user);
     window.location.href = 'dashboard.html';
   } catch (e) {
@@ -144,6 +174,10 @@ async function login() {
 async function logout() {
   if (!currentUser) { window.location.href = 'login.html'; return; }
   try {
+<<<<<<< HEAD
+=======
+    // API expects { username }
+>>>>>>> f4ce8b4e73d6a19e14a22a11fbe9be3f777111de
     await post('/users/logout', { username: currentUser.username });
   } catch (_) { /* best-effort */ }
   clearUser();
@@ -154,7 +188,11 @@ async function logout() {
 
 // Active ticket id for the open modal
 let activeTicketId = null;
+<<<<<<< HEAD
 // Cache of agents fetched from /api/users/agents
+=======
+// Cache of all agents (fetched once)
+>>>>>>> f4ce8b4e73d6a19e14a22a11fbe9be3f777111de
 let agentsList = [];
 
 async function initDashboard() {
@@ -164,9 +202,14 @@ async function initDashboard() {
   const wt = document.getElementById('welcome-text');
   if (wt) wt.textContent = `${currentUser.username} · ${currentUser.role}`;
 
+<<<<<<< HEAD
   const role = currentUser.role;
 
   // Show role-specific tabs
+=======
+  // Show role-specific tabs
+  const role = currentUser.role;
+>>>>>>> f4ce8b4e73d6a19e14a22a11fbe9be3f777111de
   if (role === 'AGENT' || role === 'ADMIN') {
     document.querySelectorAll('.agent-only').forEach(el => el.classList.remove('hidden'));
   }
@@ -189,6 +232,7 @@ async function initDashboard() {
   // Logout
   document.getElementById('logout-btn')?.addEventListener('click', logout);
 
+<<<<<<< HEAD
   // Pre-load agents list so the assign dropdown is populated when the modal opens
   if (role === 'AGENT' || role === 'ADMIN') {
     try {
@@ -196,13 +240,23 @@ async function initDashboard() {
     } catch (_) {
       agentsList = [];
     }
+=======
+  // Pre-load agents list for assign dropdown
+  if (role === 'AGENT' || role === 'ADMIN') {
+    // We don't have a GET /api/users endpoint, so the assign select is
+    // populated lazily from the ticket's own agentId or typed in manually.
+    // We'll use a text input instead inside the modal (see modal wiring).
+>>>>>>> f4ce8b4e73d6a19e14a22a11fbe9be3f777111de
   }
 
   // Wire new-ticket form
   document.getElementById('nt-submit')?.addEventListener('click', createTicket);
   document.getElementById('refresh-tickets-btn')?.addEventListener('click', loadMyTickets);
   document.getElementById('refresh-all-btn')?.addEventListener('click', loadAllTickets);
+<<<<<<< HEAD
 
+=======
+>>>>>>> f4ce8b4e73d6a19e14a22a11fbe9be3f777111de
   // Modal close
   document.getElementById('modal-close')?.addEventListener('click', closeModal);
   document.getElementById('modal-overlay')?.addEventListener('click', e => {
@@ -216,14 +270,19 @@ async function initDashboard() {
   document.getElementById('post-comment-btn')?.addEventListener('click', postComment);
 
   // Default tab
+<<<<<<< HEAD
   if (role === 'CUSTOMER') {
     switchTab('tickets');
+=======
+  if (role === 'CUSTOMER') {    switchTab('tickets');
+>>>>>>> f4ce8b4e73d6a19e14a22a11fbe9be3f777111de
   } else {
     switchTab('all-tickets');
   }
 }
 
 function switchTab(name) {
+<<<<<<< HEAD
   document.querySelectorAll('.tab-btn').forEach(btn => {
     btn.classList.toggle('active', btn.dataset.tab === name);
   });
@@ -232,6 +291,19 @@ function switchTab(name) {
 
   if (name === 'tickets')     loadMyTickets();
   if (name === 'all-tickets') loadAllTickets();
+=======
+  // Update buttons
+  document.querySelectorAll('.tab-btn').forEach(btn => {
+    btn.classList.toggle('active', btn.dataset.tab === name);
+  });
+  // Show correct section
+  document.querySelectorAll('.tab-content').forEach(s => s.classList.add('hidden'));
+  show('tab-' + name);
+
+  // Lazy-load content
+  if (name === 'tickets')      loadMyTickets();
+  if (name === 'all-tickets')  loadAllTickets();
+>>>>>>> f4ce8b4e73d6a19e14a22a11fbe9be3f777111de
 }
 
 // ── tickets ────────────────────────────────────────────────────────────────
@@ -243,7 +315,11 @@ async function loadMyTickets() {
     const tickets = await get(`/tickets/customer/${currentUser.id}`);
     renderTicketList(tickets, el);
   } catch (e) {
+<<<<<<< HEAD
     el.innerHTML = `<p class="msg">${escHtml(e.message)}</p>`;
+=======
+    el.innerHTML = `<p class="msg">${e.message}</p>`;
+>>>>>>> f4ce8b4e73d6a19e14a22a11fbe9be3f777111de
   }
 }
 
@@ -254,7 +330,11 @@ async function loadAllTickets() {
     const tickets = await get('/tickets');
     renderTicketList(tickets, el);
   } catch (e) {
+<<<<<<< HEAD
     el.innerHTML = `<p class="msg">${escHtml(e.message)}</p>`;
+=======
+    el.innerHTML = `<p class="msg">${e.message}</p>`;
+>>>>>>> f4ce8b4e73d6a19e14a22a11fbe9be3f777111de
   }
 }
 
@@ -323,6 +403,7 @@ async function openTicket(id) {
 
     document.getElementById('modal-title').textContent = t.title;
     document.getElementById('modal-desc').textContent  = t.description;
+<<<<<<< HEAD
 
     // Find the assigned agent's name if we have them cached
     let agentLabel = '';
@@ -359,18 +440,52 @@ async function openTicket(id) {
           if (agent.id === t.agentId) opt.selected = true;
           agentSel.appendChild(opt);
         });
+=======
+    document.getElementById('modal-meta').innerHTML    = `
+      <span>${badge(t.status)}</span>
+      <span>${priorityBadge(t.priority)}</span>
+      <span class="muted">${fmtDate(t.createdAt)}</span>
+      ${t.agentId ? `<span class="muted">Agent ID: ${t.agentId}</span>` : ''}
+    `;
+
+    // Role-specific actions
+    const role = currentUser.role;
+    if (role === 'AGENT' || role === 'ADMIN') {
+      show('agent-actions');
+      // Pre-select current status
+      const sel = document.getElementById('status-select');
+      if (sel) sel.value = t.status || 'OPEN';
+      // Populate agent assign field (simple text input for agent id)
+      const agentSel = document.getElementById('assign-agent-select');
+      if (agentSel) {
+        agentSel.innerHTML = `<option value="">— enter agent id —</option>`;
+        if (t.agentId) {
+          const opt = document.createElement('option');
+          opt.value = t.agentId;
+          opt.textContent = `Current: ${t.agentId}`;
+          agentSel.appendChild(opt);
+          agentSel.value = t.agentId;
+        }
+>>>>>>> f4ce8b4e73d6a19e14a22a11fbe9be3f777111de
       }
     } else {
       hide('agent-actions');
     }
 
+<<<<<<< HEAD
     // Only admins can delete tickets
+=======
+>>>>>>> f4ce8b4e73d6a19e14a22a11fbe9be3f777111de
     if (role === 'ADMIN') {
       show('admin-delete');
     } else {
       hide('admin-delete');
     }
 
+<<<<<<< HEAD
+=======
+    // Load comments
+>>>>>>> f4ce8b4e73d6a19e14a22a11fbe9be3f777111de
     await loadComments(id);
 
     show('modal-overlay');
@@ -388,6 +503,7 @@ function closeModal() {
 
 async function assignAgent() {
   if (!activeTicketId) return;
+<<<<<<< HEAD
   const agentId = document.getElementById('assign-agent-select')?.value;
   if (!agentId) {
     setMsg('agent-action-msg', 'Please select an agent.'); return;
@@ -395,6 +511,14 @@ async function assignAgent() {
   try {
     // callerId tells the server who is making the request — must be AGENT or ADMIN
     await put(`/tickets/${activeTicketId}/assign`, { agentId, callerId: currentUser.id });
+=======
+  const agentId = document.getElementById('assign-agent-select')?.value.trim();
+  if (!agentId) {
+    setMsg('agent-action-msg', 'Enter an agent ID.'); return;
+  }
+  try {
+    await put(`/tickets/${activeTicketId}/assign`, { agentId });
+>>>>>>> f4ce8b4e73d6a19e14a22a11fbe9be3f777111de
     setMsg('agent-action-msg', '✓ Agent assigned.', true);
   } catch (e) {
     setMsg('agent-action-msg', e.message || 'Failed to assign agent.');
@@ -405,9 +529,15 @@ async function updateStatus() {
   if (!activeTicketId) return;
   const status = document.getElementById('status-select')?.value;
   try {
+<<<<<<< HEAD
     // callerId tells the server who is making the request — must be AGENT or ADMIN
     await put(`/tickets/${activeTicketId}/status`, { status, callerId: currentUser.id });
     setMsg('agent-action-msg', `✓ Status updated to ${status}.`, true);
+=======
+    await put(`/tickets/${activeTicketId}/status`, { status });
+    setMsg('agent-action-msg', `✓ Status updated to ${status}.`, true);
+    // Refresh ticket lists in background
+>>>>>>> f4ce8b4e73d6a19e14a22a11fbe9be3f777111de
     if (currentUser.role === 'CUSTOMER') loadMyTickets();
     else loadAllTickets();
   } catch (e) {
@@ -419,8 +549,12 @@ async function deleteTicket() {
   if (!activeTicketId) return;
   if (!confirm('Delete this ticket? This cannot be undone.')) return;
   try {
+<<<<<<< HEAD
     // callerId as query param — must be ADMIN
     await del(`/tickets/${activeTicketId}?callerId=${encodeURIComponent(currentUser.id)}`);
+=======
+    await del(`/tickets/${activeTicketId}`);
+>>>>>>> f4ce8b4e73d6a19e14a22a11fbe9be3f777111de
     closeModal();
     loadAllTickets();
   } catch (e) {
@@ -446,7 +580,11 @@ async function loadComments(ticketId) {
       </div>
     `).join('');
   } catch (e) {
+<<<<<<< HEAD
     el.innerHTML = `<p class="msg" style="font-size:.85rem;">${escHtml(e.message)}</p>`;
+=======
+    el.innerHTML = `<p class="msg" style="font-size:.85rem;">${e.message}</p>`;
+>>>>>>> f4ce8b4e73d6a19e14a22a11fbe9be3f777111de
   }
 }
 
@@ -492,9 +630,14 @@ document.addEventListener('DOMContentLoaded', () => {
     if (e.key === 'Enter') login();
   });
 
+<<<<<<< HEAD
   // register.html (customer — role hardcoded to CUSTOMER)
   document.getElementById('reg-btn')?.addEventListener('click', register);
 
   // register-agent.html (agent — role hardcoded to AGENT)
   document.getElementById('reg-agent-btn')?.addEventListener('click', registerAgent);
+=======
+  // register.html
+  document.getElementById('reg-btn')?.addEventListener('click', register);
+>>>>>>> f4ce8b4e73d6a19e14a22a11fbe9be3f777111de
 });
