@@ -3,169 +3,35 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<<<<<<< HEAD
-  <meta name="description" content="Help Desk support portal for managing customer issues.">
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-=======
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
->>>>>>> f4ce8b4e73d6a19e14a22a11fbe9be3f777111de
   <link rel="stylesheet" href="style.css">
   <title>Help Desk</title>
 </head>
 <body>
-<<<<<<< HEAD
   <header class="site-header">
     <div class="header-inner">
-      <a href="index.html" class="brand" aria-label="Help Desk home">
-        <span class="brand-mark">🎧</span>
-        <span>Help Desk</span>
-      </a>
-
-      <nav class="header-nav" aria-label="Main navigation">
-        <a href="#features" class="nav-link">Features</a>
-        <a href="login.html" class="nav-link">Login</a>
-        <a href="register.html" class="primary-btn">Get started</a>
+      <span class="brand">🎧 Help Desk</span>
+      <nav class="header-nav">
+        <a href="login.html">Login</a>
+        <a href="register.html">Register</a>
+        <a href="register-agent.html">Agent sign up</a>
       </nav>
     </div>
   </header>
 
-  <main class="page-wrap">
-    <section class="hero">
-      <div class="hero-copy">
-        <span class="eyebrow">Support portal</span>
-        <h1>Simple help for every <strong>customer issue</strong>.</h1>
-        <p class="hero-subtitle">
-          Track support requests, stay organized, and resolve problems faster with a clean dashboard built for teams.
-        </p>
-
-        <div class="cta-row">
-          <a href="register.html" class="primary-btn">Create account</a>
-          <a href="login.html" class="secondary-btn">Login</a>
-        </div>
-
-        <div class="hero-stats">
-          <div class="stat">
-            <strong>24/7</strong>
-            <span>Monitoring</span>
-          </div>
-          <div class="stat">
-            <strong>Fast</strong>
-            <span>Replies</span>
-          </div>
-          <div class="stat">
-            <strong>Clear</strong>
-            <span>Tracking</span>
-          </div>
-        </div>
-      </div>
-
-      <div class="hero-panel" aria-label="Dashboard preview">
-        <div class="panel-window">
-          <div class="panel-header">
-            <div class="dots" aria-hidden="true">
-              <span class="dot red"></span>
-              <span class="dot yellow"></span>
-              <span class="dot green"></span>
-            </div>
-            <span>Tickets</span>
-          </div>
-
-          <div class="preview-metrics">
-            <div class="metric-card">
-              <small>Open</small>
-              <strong>12</strong>
-            </div>
-            <div class="metric-card">
-              <small>In progress</small>
-              <strong>8</strong>
-            </div>
-            <div class="metric-card">
-              <small>Resolved</small>
-              <strong>42</strong>
-            </div>
-          </div>
-
-          <div class="preview-list">
-            <div class="preview-item">
-              <div>
-                <strong>Password reset</strong>
-                <span>Customer support</span>
-              </div>
-              <span class="badge badge-open">Open</span>
-            </div>
-            <div class="preview-item">
-              <div>
-                <strong>Billing issue</strong>
-                <span>Finance</span>
-              </div>
-              <span class="badge badge-progress">In progress</span>
-            </div>
-            <div class="preview-item">
-              <div>
-                <strong>Bug report</strong>
-                <span>Engineering</span>
-              </div>
-              <span class="badge badge-resolved">Resolved</span>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <section id="features" class="feature-section">
-      <div class="section-header">
-        <h2>What you can do</h2>
-        <p>Everything needed to manage support requests without extra noise.</p>
-      </div>
-
-      <div class="feature-grid">
-        <article class="feature-card">
-          <div class="feature-icon">⚡</div>
-          <h3>Quick ticketing</h3>
-          <p>Submit and review customer issues in one place with simple, clear steps.</p>
-        </article>
-
-        <article class="feature-card">
-          <div class="feature-icon">👥</div>
-          <h3>Easy teamwork</h3>
-          <p>Assign tickets and update status as the team works through every request.</p>
-        </article>
-
-        <article class="feature-card">
-          <div class="feature-icon">📊</div>
-          <h3>Simple tracking</h3>
-          <p>Monitor progress and keep customers informed without confusion or delays.</p>
-        </article>
-      </div>
-    </section>
-  </main>
-
-  <script>
-    try {
-      const u = localStorage.getItem('helpdesk_user');
-      if (u) window.location.href = 'dashboard.html';
-    } catch (_) {}
-=======
-  <header>
-    <div class="brand">🎧 Help Desk</div>
-  </header>
-
-  <main class="card" style="max-width:460px; margin:60px auto; text-align:center;">
-    <h1 style="margin-bottom:8px;">Welcome</h1>
-    <p class="muted" style="margin-bottom:28px;">Raise tickets, track issues, get help.</p>
-    <div style="display:flex; gap:10px; justify-content:center;">
-      <a class="btn-link" href="login.html">Login</a>
-      <a class="btn" href="register.html">Register</a>
+  <div class="home-hero">
+    <h1>Help Desk Support</h1>
+    <p>Raise tickets, track issues, get help — all in one place.</p>
+    <div class="btn-row">
+      <a href="register.html" class="btn-primary">Customer sign up</a>
+      <a href="register-agent.html" class="btn-outline">Agent sign up</a>
+      <a href="login.html" class="btn-outline">Login</a>
     </div>
-  </main>
+  </div>
 
   <script>
-    // Redirect to dashboard if already logged in
     try {
-      const u = localStorage.getItem('helpdesk_user');
-      if (u) window.location.href = 'dashboard.html';
-    } catch(_) {}
->>>>>>> f4ce8b4e73d6a19e14a22a11fbe9be3f777111de
+      if (localStorage.getItem('helpdesk_user')) window.location.href = 'dashboard.html';
+    } catch (_) {}
   </script>
 </body>
 </html>

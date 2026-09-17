@@ -12,11 +12,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-<<<<<<< HEAD
 import java.util.List;
 
-=======
->>>>>>> f4ce8b4e73d6a19e14a22a11fbe9be3f777111de
 @RestController
 @CrossOrigin(origins = "*")
 @RequestMapping("/api/users")
@@ -53,18 +50,10 @@ public class UserController {
 
     @PostMapping("/logout")
     public ResponseEntity<?> logout(@RequestBody LogoutUserRequest request) {
-<<<<<<< HEAD
         try {
             userService.logout(request);
             return ResponseEntity.noContent().build();
         } catch (UserNotFoundException e) {
-=======
-        try{
-            UserResponse response = userService.logout(request);
-            return ResponseEntity.ok(response);
-        }
-        catch (UserNotFoundException e){
->>>>>>> f4ce8b4e73d6a19e14a22a11fbe9be3f777111de
             return ResponseEntity.status(404).body(e.getMessage());
         }
     }
@@ -78,12 +67,10 @@ public class UserController {
             return ResponseEntity.status(404).body(e.getMessage());
         }
     }
-<<<<<<< HEAD
 
+    /** Returns all users with the AGENT role. Used by the dashboard to populate the assign-agent dropdown. */
     @GetMapping("/agents")
     public ResponseEntity<List<UserResponse>> getAgents() {
         return ResponseEntity.ok(userService.getAgents());
     }
-=======
->>>>>>> f4ce8b4e73d6a19e14a22a11fbe9be3f777111de
 }

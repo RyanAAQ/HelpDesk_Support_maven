@@ -3,96 +3,42 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<<<<<<< HEAD
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="style.css">
-  <title>Register — Help Desk</title>
-</head>
-<body class="auth-page">
-  <header class="site-header">
-    <div class="header-inner">
-      <a href="index.html" class="brand" aria-label="Help Desk home">
-        <span class="brand-mark">🎧</span>
-        <span>Help Desk</span>
-      </a>
-      <nav class="header-nav">
-        <a href="index.html" class="nav-link">Home</a>
-        <a href="login.html" class="nav-link">Login</a>
-      </nav>
-    </div>
-  </header>
-
-  <main class="auth-shell">
-    <section class="auth-visual" aria-label="Why use Help Desk">
-      <span class="eyebrow" style="background: rgba(255,255,255,0.10); color: white; border-color: rgba(255,255,255,0.18);">Support workflow</span>
-      <h2>Turn customer issues into clear action.</h2>
-      <p>Create your account and start managing requests with a cleaner, more organized support process.</p>
-
-      <div class="auth-badges">
-        <span>Track progress</span>
-        <span>Assign tickets</span>
-        <span>Stay organized</span>
-      </div>
-    </section>
-
-    <section class="auth-panel" aria-label="Registration form">
-      <h2>Create your account</h2>
-      <p class="subtext">Set up your workspace in a few quick steps.</p>
-
-      <div class="form-grid">
-        <label class="field-label">Username</label>
-        <input id="reg-username" type="text" placeholder="your_username" autocomplete="username" />
-
-        <label class="field-label">Email</label>
-        <input id="reg-email" type="email" placeholder="you@example.com" autocomplete="email" />
-
-        <label class="field-label">Password</label>
-        <input id="reg-password" type="password" placeholder="••••••••" autocomplete="new-password" />
-      </div>
-
-      <!-- role is always CUSTOMER on this page -->
-
-      <button id="reg-btn" class="btn-full">Create account</button>
-      <p id="reg-msg" class="msg"></p>
-
-      <p class="auth-meta">
-        Already have an account? <a href="login.html">Login</a>
-      </p>
-      <p class="auth-meta">
-        Are you a support agent? <a href="register-agent.html">Agent sign up</a>
-      </p>
-    </section>
-=======
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style.css">
   <title>Register — Help Desk</title>
 </head>
 <body>
-  <header>
-    <div class="brand">🎧 Help Desk</div>
+  <header class="site-header">
+    <div class="header-inner">
+      <a href="index.html" class="brand">🎧 Help Desk</a>
+      <nav class="header-nav">
+        <a href="login.html">Login</a>
+        <a href="register-agent.html">Agent sign up</a>
+      </nav>
+    </div>
   </header>
 
-  <main class="card" style="max-width:420px; margin:60px auto;">
-    <h2>Create account</h2>
-    <p class="muted" style="margin-bottom:18px;">Fill in the details below to get started.</p>
-    <label class="field-label">Username</label>
-    <input id="reg-username" type="text" placeholder="your_username" autocomplete="username" />
-    <label class="field-label">Email</label>
-    <input id="reg-email" type="email" placeholder="you@example.com" autocomplete="email" />
-    <label class="field-label">Password</label>
-    <input id="reg-password" type="password" placeholder="••••••••" autocomplete="new-password" />
-    <label class="field-label">Role</label>
-    <select id="reg-role">
-      <option value="CUSTOMER">Customer</option>
-      <option value="AGENT">Agent</option>
-    </select>
-    <button id="reg-btn" class="btn-full">Create account</button>
-    <p id="reg-msg" class="msg"></p>
-    <p class="muted" style="margin-top:14px; text-align:center;">
-      Already have an account? <a href="login.html">Login</a>
-    </p>
->>>>>>> f4ce8b4e73d6a19e14a22a11fbe9be3f777111de
-  </main>
+  <div class="auth-wrap">
+    <div class="card">
+      <h2>Create account</h2>
+      <p class="subtext">Customers sign up here.</p>
+
+      <label class="field-label">Username</label>
+      <input id="reg-username" type="text" placeholder="your_username" autocomplete="username" />
+
+      <label class="field-label">Email</label>
+      <input id="reg-email" type="email" placeholder="you@example.com" autocomplete="email" />
+
+      <label class="field-label">Password</label>
+      <input id="reg-password" type="password" placeholder="••••••••" autocomplete="new-password" />
+
+      <!-- role is always CUSTOMER on this page -->
+      <button id="reg-btn" class="btn-full">Create account</button>
+      <p id="reg-msg" class="msg"></p>
+
+      <p class="auth-meta">Already have an account? <a href="login.html">Login</a></p>
+      <p class="auth-meta">Support agent? <a href="register-agent.html">Agent sign up</a></p>
+    </div>
+  </div>
 
   <script src="app.js"></script>
 </body>

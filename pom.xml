@@ -40,9 +40,6 @@
             <scope>compile</scope>
         </dependency>
 
-
-
-<<<<<<< HEAD
         <!-- Spring Boot test slice (includes JUnit 5) -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -59,14 +56,11 @@
             <scope>test</scope>
         </dependency>
 
-=======
->>>>>>> f4ce8b4e73d6a19e14a22a11fbe9be3f777111de
     </dependencies>
 
     <build>
         <plugins>
             <plugin>
-<<<<<<< HEAD
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
                 <version>4.1.1</version>
@@ -79,8 +73,6 @@
                 </executions>
             </plugin>
             <plugin>
-=======
->>>>>>> f4ce8b4e73d6a19e14a22a11fbe9be3f777111de
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
                 <version>3.13.0</version>
@@ -99,14 +91,11 @@
                     </annotationProcessorPaths>
                 </configuration>
             </plugin>
-<<<<<<< HEAD
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-surefire-plugin</artifactId>
                 <version>3.3.1</version>
             </plugin>
-=======
->>>>>>> f4ce8b4e73d6a19e14a22a11fbe9be3f777111de
         </plugins>
     </build>
 

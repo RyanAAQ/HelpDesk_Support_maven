@@ -16,10 +16,7 @@ public class Mapper {
         UserResponse response = new UserResponse();
         response.setId(user.getId());
         response.setName(user.getName());
-<<<<<<< HEAD
         response.setUsername(user.getUsername());
-=======
->>>>>>> f4ce8b4e73d6a19e14a22a11fbe9be3f777111de
         response.setEmail(user.getEmail());
         response.setRole(user.getRole());
         response.setLoggedIn(user.isLoggedIn());
@@ -54,7 +51,6 @@ public class Mapper {
             }
         }
         response.setComments(commentResponses);
-
         return response;
     }
 }

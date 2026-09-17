@@ -57,46 +57,38 @@ public class TicketController {
         return ResponseEntity.ok(ticketService.getTicketsByCustomer(customerId));
     }
 
-<<<<<<< HEAD
-   @PutMapping("/{id}/assign")
-=======
+    /** Only AGENT or ADMIN callers may assign an agent. callerId must be in the request body. */
     @PutMapping("/{id}/assign")
->>>>>>> f4ce8b4e73d6a19e14a22a11fbe9be3f777111de
-    public ResponseEntity<?> assignAgent(@PathVariable String id, @RequestBody AssignAgentRequest request) {
+    public ResponseEntity<?> assignAgent(@PathVariable String id,
+                                         @RequestBody AssignAgentRequest request) {
         try {
             TicketResponse response = ticketService.assignAgent(id, request);
             return ResponseEntity.ok(response);
         } catch (TicketNotFoundException | UserNotFoundException e) {
             return ResponseEntity.status(404).body(e.getMessage());
         } catch (IllegalArgumentException e) {
-<<<<<<< HEAD
             return ResponseEntity.status(403).body(e.getMessage());
-=======
-            return ResponseEntity.badRequest().body(e.getMessage());
->>>>>>> f4ce8b4e73d6a19e14a22a11fbe9be3f777111de
         }
     }
 
+    /** Only AGENT or ADMIN callers may update status. callerId must be in the request body. */
     @PutMapping("/{id}/status")
-    public ResponseEntity<?> updateStatus(@PathVariable String id, @RequestBody UpdateTicketStatusRequest request) {
+    public ResponseEntity<?> updateStatus(@PathVariable String id,
+                                          @RequestBody UpdateTicketStatusRequest request) {
         try {
             TicketResponse response = ticketService.updateStatus(id, request);
             return ResponseEntity.ok(response);
-<<<<<<< HEAD
         } catch (TicketNotFoundException | UserNotFoundException e) {
             return ResponseEntity.status(404).body(e.getMessage());
         } catch (IllegalArgumentException e) {
             return ResponseEntity.status(403).body(e.getMessage());
-=======
-        } catch (TicketNotFoundException e) {
-            return ResponseEntity.status(404).body(e.getMessage());
->>>>>>> f4ce8b4e73d6a19e14a22a11fbe9be3f777111de
         }
     }
 
+    /** Only ADMIN callers may delete a ticket. callerId is a required query parameter. */
     @DeleteMapping("/{id}")
-<<<<<<< HEAD
-    public ResponseEntity<?> deleteTicket(@PathVariable String id, @RequestParam String callerId) {
+    public ResponseEntity<?> deleteTicket(@PathVariable String id,
+                                          @RequestParam String callerId) {
         try {
             ticketService.deleteTicket(id, callerId);
             return ResponseEntity.noContent().build();
@@ -104,14 +96,6 @@ public class TicketController {
             return ResponseEntity.status(404).body(e.getMessage());
         } catch (IllegalArgumentException e) {
             return ResponseEntity.status(403).body(e.getMessage());
-=======
-    public ResponseEntity<?> deleteTicket(@PathVariable String id) {
-        try {
-            ticketService.deleteTicket(id);
-            return ResponseEntity.noContent().build();
-        } catch (TicketNotFoundException e) {
-            return ResponseEntity.status(404).body(e.getMessage());
->>>>>>> f4ce8b4e73d6a19e14a22a11fbe9be3f777111de
         }
     }
 }

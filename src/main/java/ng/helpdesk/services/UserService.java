@@ -1,9 +1,6 @@
 package ng.helpdesk.services;
 
-<<<<<<< HEAD
 import ng.helpdesk.data.models.Role;
-=======
->>>>>>> f4ce8b4e73d6a19e14a22a11fbe9be3f777111de
 import ng.helpdesk.data.models.User;
 import ng.helpdesk.data.repositories.UserRepository;
 import ng.helpdesk.dtos.requests.CreateUserRequest;
@@ -17,10 +14,7 @@ import ng.helpdesk.utils.Mapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-<<<<<<< HEAD
 import java.util.List;
-=======
->>>>>>> f4ce8b4e73d6a19e14a22a11fbe9be3f777111de
 import java.util.Optional;
 
 @Service
@@ -68,18 +62,14 @@ public class UserService {
         return Mapper.mapToUser(user);
     }
 
-    public UserResponse logout(LogoutUserRequest request) {
+    public void logout(LogoutUserRequest request) {
         Optional<User> found = userRepository.findByUsername(request.getUsername());
         if (found.isEmpty()) {
             throw new UserNotFoundException("User not found");
         }
         User user = found.get();
         user.setLoggedIn(false);
-<<<<<<< HEAD
         userRepository.save(user);
-=======
->>>>>>> f4ce8b4e73d6a19e14a22a11fbe9be3f777111de
-        return null;
     }
 
     public UserResponse getUserById(String id) {
@@ -90,7 +80,6 @@ public class UserService {
         return Mapper.mapToUser(found.get());
     }
 
-<<<<<<< HEAD
     /** Returns all users with the AGENT role — used to populate the assign-agent dropdown. */
     public List<UserResponse> getAgents() {
         return userRepository.findByRole(Role.AGENT)
@@ -98,7 +87,4 @@ public class UserService {
                 .map(Mapper::mapToUser)
                 .toList();
     }
-=======
-
->>>>>>> f4ce8b4e73d6a19e14a22a11fbe9be3f777111de
 }

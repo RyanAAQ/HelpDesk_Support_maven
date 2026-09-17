@@ -25,12 +25,8 @@ public class CommentService {
     private UserRepository userRepository;
 
     public CommentResponse postComment(CreateCommentRequest request) {
-<<<<<<< HEAD
         var ticketOpt = ticketRepository.findById(request.getTicketId());
         if (ticketOpt.isEmpty()) {
-=======
-        if (ticketRepository.findById(request.getTicketId()).isEmpty()) {
->>>>>>> f4ce8b4e73d6a19e14a22a11fbe9be3f777111de
             throw new TicketNotFoundException("Ticket not found");
         }
         if (userRepository.findById(request.getUserId()).isEmpty()) {
@@ -44,7 +40,6 @@ public class CommentService {
         comment.setCreatedAt(LocalDateTime.now());
         commentRepository.save(comment);
 
-<<<<<<< HEAD
         // Also append to the ticket's embedded comments list so TicketResponse
         // always reflects the current comment thread
         var ticket = ticketOpt.get();
@@ -54,8 +49,6 @@ public class CommentService {
         ticket.getComments().add(comment);
         ticketRepository.save(ticket);
 
-=======
->>>>>>> f4ce8b4e73d6a19e14a22a11fbe9be3f777111de
         return Mapper.mapToComment(comment);
     }
 
