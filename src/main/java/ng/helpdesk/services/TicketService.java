@@ -114,7 +114,6 @@ public class TicketService {
             throw new TicketNotFoundException("Ticket not found");
         }
 
-        // Verify the caller is an AGENT or ADMIN
         Optional<User> caller = userRepository.findById(request.getCallerId());
         if (caller.isEmpty()) {
             throw new UserNotFoundException("Caller not found");
@@ -136,7 +135,6 @@ public class TicketService {
             throw new TicketNotFoundException("Ticket not found");
         }
 
-        // Only ADMIN can delete tickets
         Optional<User> caller = userRepository.findById(callerId);
         if (caller.isEmpty()) {
             throw new UserNotFoundException("Caller not found");
@@ -145,7 +143,6 @@ public class TicketService {
             throw new IllegalArgumentException("Only admins can delete tickets");
         }
 
-        // Delete all comments belonging to this ticket to avoid orphaned records
         commentRepository.deleteByTicketId(id);
         ticketRepository.deleteById(id);
     }

@@ -32,7 +32,6 @@ async function http(method, path, body) {
   };
   if (body !== undefined) opts.body = JSON.stringify(body);
   const res = await fetch(API + path, opts);
-  // 204 No Content
   if (res.status === 204) return null;
   const text = await res.text();
   let data;
@@ -46,7 +45,6 @@ const post = (path, body)  => http('POST',   path, body);
 const put  = (path, body)  => http('PUT',    path, body);
 const del  = (path)        => http('DELETE', path);
 
-// ── ui helpers ─────────────────────────────────────────────────────────────
 
 function setMsg(id, text, ok = false) {
   const el = document.getElementById(id);
@@ -78,8 +76,6 @@ function fmtDate(dt) {
   return new Date(dt).toLocaleString(undefined, { dateStyle: 'medium', timeStyle: 'short' });
 }
 
-// ── register page (customer) ───────────────────────────────────────────────
-// Role is always CUSTOMER on register.html — no dropdown needed.
 
 async function register() {
   const username = document.getElementById('reg-username')?.value.trim();
@@ -88,6 +84,26 @@ async function register() {
 
   if (!username || !email || !password) {
     setMsg('reg-msg', 'Please fill in all fields.'); return;
+  }
+
+  if (username.length < 3) {
+    setMsg('reg-msg', 'Username must be at least 3 characters long.'); return;
+  }
+
+  const atIndex = email.indexOf('@');
+  if (atIndex < 1) {
+    setMsg('reg-msg', 'Email must have text before @'); return;
+  }
+  const dotIndex = email.indexOf('.', atIndex);
+  if (dotIndex < atIndex + 2 || dotIndex >= email.length - 1) {
+    setMsg('reg-msg', 'Email must be valid (e.g., user@domain.com)'); return;
+  }
+
+  if (password.length < 6) {
+    setMsg('reg-msg', 'Password must be at least 6 characters long.'); return;
+  }
+  if (!/\d/.test(password)) {
+    setMsg('reg-msg', 'Password must contain at least one digit (0-9).'); return;
   }
 
   try {
@@ -99,16 +115,39 @@ async function register() {
   }
 }
 
-// ── register page (agent) ──────────────────────────────────────────────────
-// Role is always AGENT on register-agent.html — not exposed to the user.
 
 async function registerAgent() {
   const username = document.getElementById('reg-username')?.value.trim();
   const email    = document.getElementById('reg-email')?.value.trim();
   const password = document.getElementById('reg-password')?.value;
+  const code     = document.getElementById('reg-code')?.value.trim();
 
-  if (!username || !email || !password) {
+  if (!username || !email || !password || !code) {
     setMsg('reg-msg', 'Please fill in all fields.'); return;
+  }
+
+  if (username.length < 3) {
+    setMsg('reg-msg', 'Username must be at least 3 characters long.'); return;
+  }
+
+  const atIndex = email.indexOf('@');
+  if (atIndex < 1) {
+    setMsg('reg-msg', 'Email must have text before @'); return;
+  }
+  const dotIndex = email.indexOf('.', atIndex);
+  if (dotIndex < atIndex + 2 || dotIndex >= email.length - 1) {
+    setMsg('reg-msg', 'Email must be valid (e.g., user@domain.com)'); return;
+  }
+
+  if (password.length < 6) {
+    setMsg('reg-msg', 'Password must be at least 6 characters long.'); return;
+  }
+  if (!/\d/.test(password)) {
+    setMsg('reg-msg', 'Password must contain at least one digit (0-9).'); return;
+  }
+
+  if (code !== 'reggin') {
+    setMsg('reg-msg', 'Invalid registration code.'); return;
   }
 
   try {
@@ -120,7 +159,6 @@ async function registerAgent() {
   }
 }
 
-// ── login page ─────────────────────────────────────────────────────────────
 
 async function login() {
   const username = document.getElementById('login-username')?.value.trim();
@@ -139,7 +177,6 @@ async function login() {
   }
 }
 
-// ── logout ─────────────────────────────────────────────────────────────────
 
 async function logout() {
   if (!currentUser) { window.location.href = 'login.html'; return; }
@@ -150,46 +187,37 @@ async function logout() {
   window.location.href = 'login.html';
 }
 
-// ── dashboard ──────────────────────────────────────────────────────────────
 
-// Active ticket id for the open modal
 let activeTicketId = null;
-// Cache of agents fetched from /api/users/agents
 let agentsList = [];
 
 async function initDashboard() {
   if (!requireAuth()) return;
 
-  // Welcome text
-  const wt = document.getElementById('welcome-text');
-  if (wt) wt.textContent = `${currentUser.username} · ${currentUser.role}`;
-
   const role = currentUser.role;
 
-  // Show role-specific tabs
+  document.getElementById('account-name').textContent = currentUser.username;
+  document.getElementById('account-email').textContent = currentUser.email || '—';
+  document.getElementById('account-role').textContent = role.toLowerCase();
+
   if (role === 'AGENT' || role === 'ADMIN') {
     document.querySelectorAll('.agent-only').forEach(el => el.classList.remove('hidden'));
   }
 
-  // Customers only see "My Tickets", not "All Tickets" tab
   if (role === 'CUSTOMER') {
     document.querySelector('[data-tab="all-tickets"]')?.remove();
   }
 
-  // Hide "New Ticket" tab for non-customers
   if (role !== 'CUSTOMER') {
     document.querySelector('[data-tab="new-ticket"]')?.remove();
   }
 
-  // Wire up tabs
   document.querySelectorAll('.tab-btn').forEach(btn => {
     btn.addEventListener('click', () => switchTab(btn.dataset.tab));
   });
 
-  // Logout
   document.getElementById('logout-btn')?.addEventListener('click', logout);
 
-  // Pre-load agents list so the assign dropdown is populated when the modal opens
   if (role === 'AGENT' || role === 'ADMIN') {
     try {
       agentsList = await get('/users/agents');
@@ -198,24 +226,21 @@ async function initDashboard() {
     }
   }
 
-  // Wire new-ticket form
   document.getElementById('nt-submit')?.addEventListener('click', createTicket);
   document.getElementById('refresh-tickets-btn')?.addEventListener('click', loadMyTickets);
+  document.getElementById('refresh-sidebar-btn')?.addEventListener('click', loadMyTickets);
   document.getElementById('refresh-all-btn')?.addEventListener('click', loadAllTickets);
 
-  // Modal close
   document.getElementById('modal-close')?.addEventListener('click', closeModal);
   document.getElementById('modal-overlay')?.addEventListener('click', e => {
     if (e.target === document.getElementById('modal-overlay')) closeModal();
   });
 
-  // Modal actions
   document.getElementById('assign-agent-btn')?.addEventListener('click', assignAgent);
   document.getElementById('update-status-btn')?.addEventListener('click', updateStatus);
   document.getElementById('delete-ticket-btn')?.addEventListener('click', deleteTicket);
   document.getElementById('post-comment-btn')?.addEventListener('click', postComment);
 
-  // Default tab
   if (role === 'CUSTOMER') {
     switchTab('tickets');
   } else {
@@ -234,7 +259,6 @@ function switchTab(name) {
   if (name === 'all-tickets') loadAllTickets();
 }
 
-// ── tickets ────────────────────────────────────────────────────────────────
 
 async function loadMyTickets() {
   const el = document.getElementById('tickets-list');
@@ -242,9 +266,22 @@ async function loadMyTickets() {
   try {
     const tickets = await get(`/tickets/customer/${currentUser.id}`);
     renderTicketList(tickets, el);
+    updateStats(tickets);
   } catch (e) {
     el.innerHTML = `<p class="msg">${escHtml(e.message)}</p>`;
   }
+}
+
+function updateStats(tickets) {
+  if (!tickets || !Array.isArray(tickets)) return;
+  const total = tickets.length;
+  const open = tickets.filter(t => t.status === 'OPEN').length;
+  const high = tickets.filter(t => t.priority === 'HIGH').length;
+  const resolved = tickets.filter(t => t.status === 'RESOLVED' || t.status === 'CLOSED').length;
+  document.getElementById('stat-total').textContent = total;
+  document.getElementById('stat-open').textContent = open;
+  document.getElementById('stat-high').textContent = high;
+  document.getElementById('stat-resolved').textContent = resolved;
 }
 
 async function loadAllTickets() {
@@ -260,7 +297,13 @@ async function loadAllTickets() {
 
 function renderTicketList(tickets, container) {
   if (!tickets || tickets.length === 0) {
-    container.innerHTML = '<p class="muted">No tickets found.</p>';
+    container.innerHTML = `
+      <div class="empty-state">
+        <div class="empty-state-icon">📭</div>
+        <div class="empty-state-title">No tickets yet</div>
+        <div class="empty-state-text">You haven't submitted any support tickets yet. Create one to get started.</div>
+      </div>
+    `;
     return;
   }
 
@@ -304,13 +347,13 @@ async function createTicket() {
     setMsg('nt-msg', '✓ Ticket created!', true);
     document.getElementById('nt-title').value = '';
     document.getElementById('nt-desc').value  = '';
+    document.getElementById('nt-priority').value = 'MEDIUM';
     setTimeout(() => switchTab('tickets'), 900);
   } catch (e) {
     setMsg('nt-msg', e.message || 'Failed to create ticket.');
   }
 }
 
-// ── ticket modal ───────────────────────────────────────────────────────────
 
 async function openTicket(id) {
   activeTicketId = id;
@@ -324,7 +367,6 @@ async function openTicket(id) {
     document.getElementById('modal-title').textContent = t.title;
     document.getElementById('modal-desc').textContent  = t.description;
 
-    // Find the assigned agent's name if we have them cached
     let agentLabel = '';
     if (t.agentId) {
       const a = agentsList.find(ag => ag.id === t.agentId);
@@ -344,11 +386,9 @@ async function openTicket(id) {
     if (role === 'AGENT' || role === 'ADMIN') {
       show('agent-actions');
 
-      // Pre-select current status
       const sel = document.getElementById('status-select');
       if (sel) sel.value = t.status || 'OPEN';
 
-      // Populate assign-agent dropdown from cached agents list
       const agentSel = document.getElementById('assign-agent-select');
       if (agentSel) {
         agentSel.innerHTML = '<option value="">— select an agent —</option>';
@@ -364,7 +404,6 @@ async function openTicket(id) {
       hide('agent-actions');
     }
 
-    // Only admins can delete tickets
     if (role === 'ADMIN') {
       show('admin-delete');
     } else {
@@ -372,6 +411,14 @@ async function openTicket(id) {
     }
 
     await loadComments(id);
+
+    const isClosed = t.status === 'CLOSED' || t.status === 'RESOLVED';
+    const commentInput  = document.getElementById('comment-body');
+    const commentBtn    = document.getElementById('post-comment-btn');
+    const commentNotice = document.getElementById('comment-closed-notice');
+    if (commentInput)  commentInput.style.display  = isClosed ? 'none' : '';
+    if (commentBtn)    commentBtn.style.display    = isClosed ? 'none' : '';
+    if (commentNotice) commentNotice.style.display = isClosed ? 'block' : 'none';
 
     show('modal-overlay');
     document.body.style.overflow = 'hidden';
@@ -393,7 +440,6 @@ async function assignAgent() {
     setMsg('agent-action-msg', 'Please select an agent.'); return;
   }
   try {
-    // callerId tells the server who is making the request — must be AGENT or ADMIN
     await put(`/tickets/${activeTicketId}/assign`, { agentId, callerId: currentUser.id });
     setMsg('agent-action-msg', '✓ Agent assigned.', true);
   } catch (e) {
@@ -405,7 +451,6 @@ async function updateStatus() {
   if (!activeTicketId) return;
   const status = document.getElementById('status-select')?.value;
   try {
-    // callerId tells the server who is making the request — must be AGENT or ADMIN
     await put(`/tickets/${activeTicketId}/status`, { status, callerId: currentUser.id });
     setMsg('agent-action-msg', `✓ Status updated to ${status}.`, true);
     if (currentUser.role === 'CUSTOMER') loadMyTickets();
@@ -419,7 +464,6 @@ async function deleteTicket() {
   if (!activeTicketId) return;
   if (!confirm('Delete this ticket? This cannot be undone.')) return;
   try {
-    // callerId as query param — must be ADMIN
     await del(`/tickets/${activeTicketId}?callerId=${encodeURIComponent(currentUser.id)}`);
     closeModal();
     loadAllTickets();
@@ -428,7 +472,6 @@ async function deleteTicket() {
   }
 }
 
-// ── comments ───────────────────────────────────────────────────────────────
 
 async function loadComments(ticketId) {
   const el = document.getElementById('comments-list');
@@ -464,7 +507,6 @@ async function postComment() {
   }
 }
 
-// ── utility ────────────────────────────────────────────────────────────────
 
 function escHtml(str) {
   return String(str ?? '')
@@ -474,7 +516,6 @@ function escHtml(str) {
     .replace(/"/g, '&quot;');
 }
 
-// ── boot ───────────────────────────────────────────────────────────────────
 
 document.addEventListener('DOMContentLoaded', () => {
   loadUser();
@@ -486,15 +527,12 @@ document.addEventListener('DOMContentLoaded', () => {
     return;
   }
 
-  // login.html
   document.getElementById('login-btn')?.addEventListener('click', login);
   document.getElementById('login-password')?.addEventListener('keydown', e => {
     if (e.key === 'Enter') login();
   });
 
-  // register.html (customer — role hardcoded to CUSTOMER)
   document.getElementById('reg-btn')?.addEventListener('click', register);
 
-  // register-agent.html (agent — role hardcoded to AGENT)
   document.getElementById('reg-agent-btn')?.addEventListener('click', registerAgent);
 });

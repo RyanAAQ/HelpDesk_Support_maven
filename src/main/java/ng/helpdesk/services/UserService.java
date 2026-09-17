@@ -80,7 +80,6 @@ public class UserService {
         return Mapper.mapToUser(found.get());
     }
 
-    /** Returns all users with the AGENT role — used to populate the assign-agent dropdown. */
     public List<UserResponse> getAgents() {
         return userRepository.findByRole(Role.AGENT)
                 .stream()

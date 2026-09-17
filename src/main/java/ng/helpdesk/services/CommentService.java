@@ -40,8 +40,6 @@ public class CommentService {
         comment.setCreatedAt(LocalDateTime.now());
         commentRepository.save(comment);
 
-        // Also append to the ticket's embedded comments list so TicketResponse
-        // always reflects the current comment thread
         var ticket = ticketOpt.get();
         if (ticket.getComments() == null) {
             ticket.setComments(new ArrayList<>());
